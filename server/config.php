@@ -2,7 +2,7 @@
 
 require 'vendor/autoload.php';
 
-class Manager{
+class Client{
     private $connection;
     function _construct(){
         try{

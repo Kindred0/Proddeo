@@ -1,0 +1,8 @@
+POST http://localhost/Prodeo/server/APICreateTemplate.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "email"    : "check@testing.com",
+    "username" : "Test2",
+    "password" : "TestPassword"
+}
