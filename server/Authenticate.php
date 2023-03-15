@@ -1,7 +1,6 @@
 <?php
 
 require 'vendor/autoload.php';
-require 'config.php';
 
 
 class Authenticate{
@@ -9,22 +8,16 @@ class Authenticate{
     private $username;
     private $password;
     private $client;
-    private $connection;
     private $collection;
 
     function __construct($email, $username, $password){
-
-        echo "Constructor Successfully called";
 
         $this->email    = $email;
         $this->username = $username;
         $this->password = $password;
 
-        $this->client       = new Client();
-        $this->connection   = $this->client->getConnection();
-        $this->collection   = $this->connection->Prodeo->users; 
-
-        var_dump($this->email);
+        $this->client       = new MongoDB\Client;
+        $this->collection   = $this->client->Prodeo->users; 
 
     }
 

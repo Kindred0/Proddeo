@@ -18,8 +18,6 @@ $email      = $data->{'email'};
 $username   = $data->{'username'};
 $password   = $data->{'password'};
 
-var_dump($email);
-
 $User = new Authenticate($email, $username, $password);
 
 $result = $User->checkValidSignup();
