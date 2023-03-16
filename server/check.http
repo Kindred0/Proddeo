@@ -1,8 +1,9 @@
-POST http://localhost/Prodeo/server/APICreateTemplate.php HTTP/1.1
+POST http://localhost/Prodeo/server/CreateProject.php HTTP/1.1
 Content-Type: application/json
 
 {
-    "email"    : "check@testing.com",
-    "username" : "Test2",
-    "password" : "TestPassword"
-}
+    "ProjectName"           : "Project2",
+    "ProjectType"           : "Software",
+    "ProjectDescription"    : "A second testing project to test the API for the Test User",
+    "User"                  : "Test"
+}   
