@@ -18,7 +18,7 @@ $email      = $data->{'email'};
 $username   = $data->{'username'};
 $password   = $data->{'password'};
 
-$User = new Authenticate($email, $username, $password);
+$User = Authenticate::register($email, $username, $password);
 
 $result = $User->checkValidSignup();
 

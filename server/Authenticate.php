@@ -10,7 +10,7 @@ class Authenticate{
     private $client;
     private $collection;
 
-    function __construct($email, $username, $password){
+    function __construct(){
         $this->client       = new MongoDB\Client;
         $this->collection   = $this->client->Prodeo->users; 
     }
