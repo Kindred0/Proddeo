@@ -1,8 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
 require 'UserClass.php';
-
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -13,20 +11,17 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 $data       = json_decode(file_get_contents("php://input", true));
 
+$username = $data->{'username'};
+$password = $data->{'password'};
 
-$email      = $data->{'email'};
-$username   = $data->{'username'};
-$password   = $data->{'password'};
+$newUser = User::checkRegistered($username, $password);
 
-$newUser = User::register($email, $username, $password);
+$result = $newUser->login();
 
-$result = $newUser->checkValidSignup();
-
-
-if ($result == 'Success'){
-    $newUser->signup();
-    echo json_encode(array("message" => "Record successfully inserted"));
+if ($result){
+    echo json_encode(array("message" => "Successfully logged in"));
 } else {
-    echo json_encode(array("message" => $result));
+    echo json_encode(array("message" => "Not logged in"));
 }
+
 ?>

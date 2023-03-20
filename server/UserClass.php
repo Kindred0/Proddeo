@@ -3,7 +3,7 @@
 require 'vendor/autoload.php';
 
 
-class Authenticate{
+class User{
     private $email;    
     private $username;
     private $password;
@@ -16,12 +16,36 @@ class Authenticate{
     }
 
     public static function register($email, $username, $password){
-        $newObject = new Authenticate();
+        $newObject = new User();
         $newObject->email        = $email;
         $newObject->username     = $username;
         $newObject->password     = $password;
 
         return $newObject;
+    }
+
+    public static function checkRegistered($username, $password){
+        $newObject = new User();
+        $newObject->username = $username;
+        $newObject->password = $password;
+
+
+        return $newObject;
+    }
+
+    function login(){
+        $result = $this->collection->findOne(
+            [
+                'Username'      => $this->username,
+                'Password'  => $this->password
+            ]
+            );
+
+        if ($result == NULL){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     function checkValidPassword(){
@@ -157,23 +181,4 @@ class Authenticate{
     }
 
 }
-
-
-class User{
-    private $username;
-    private $password;
-    private $client;
-    private $connection;
-    private $collection;
-
-    function _construct($username, $password){
-        $this->username = $username;
-        $this->password = $password;
-
-        $this->client = new Client();
-        $this->connection = $this->client->getConnection();
-        $this->collection = $this->connection->Prodeo->users;
-    }
-}
-
 ?>
