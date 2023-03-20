@@ -11,14 +11,17 @@ class Authenticate{
     private $collection;
 
     function __construct($email, $username, $password){
-
-        $this->email    = $email;
-        $this->username = $username;
-        $this->password = $password;
-
         $this->client       = new MongoDB\Client;
         $this->collection   = $this->client->Prodeo->users; 
+    }
 
+    public static function register($email, $username, $password){
+        $newObject = new Authenticate();
+        $newObject->email        = $email;
+        $newObject->username     = $username;
+        $newObject->password     = $password;
+
+        return $newObject;
     }
 
     function checkValidPassword(){
