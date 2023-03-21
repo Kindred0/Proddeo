@@ -27,7 +27,7 @@ class Project{
 
         $id = 1;
         $projectID = $user.'('.$id.')';
-        $cursor = $object->collection->findOne(
+        $cursor = $object->collection->find(
             [
                 'User'          => $user
             ],
@@ -36,6 +36,8 @@ class Project{
                 'sort'          => ['_id' => 1]
             ]
         );
+
+        var_dump($cursor);
         
 
         if ($cursor == NULL){
@@ -43,9 +45,9 @@ class Project{
             return $object;
         }
 
-        $cursor = json_encode(iterator_to_array($cursor));
-        $cursor = json_decode($cursor);
-        var_dump($cursor);
+        #$cursor = json_encode(iterator_to_array($cursor));
+        #$cursor = json_decode($cursor);
+        #var_dump($cursor);
 
         foreach ($cursor as $key) {
             var_dump($key['_id']);
