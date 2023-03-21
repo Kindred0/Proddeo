@@ -18,8 +18,8 @@ $user               = $data->{'User'};
 
 $newProject = Project::create($projectName, $projectType, $projectDescription, $user);
 
-//$result = $newProject->createNewProject();
+$result = $newProject->createProject();
 
-//echo $result;
+echo $result;
 
 ?>

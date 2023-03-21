@@ -36,8 +36,6 @@ class Project{
                 'sort'          => ['_id' => 1]
             ]
         );
-
-        var_dump($cursor);
         
 
         if ($cursor == NULL){
@@ -45,18 +43,12 @@ class Project{
             return $object;
         }
 
-        #$cursor = json_encode(iterator_to_array($cursor));
-        #$cursor = json_decode($cursor);
-        #var_dump($cursor);
-
         foreach ($cursor as $key) {
-            var_dump($key['_id']);
             if ($projectID == $key['_id']){
                 $id++;
                 $projectID = $user.'('.$id.')';
             }
         }
-        var_dump($projectID);
 
         $object->projectID = $user.'('.$id.')';
 
@@ -65,7 +57,7 @@ class Project{
     private static function fetch($projectID, $user){
         echo 'pass';
     }
-    function createNewProject(){
+    function createProject(){
 
         $this->collection->insertOne(
             [
