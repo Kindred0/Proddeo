@@ -33,6 +33,32 @@ class User{
         return $newObject;
     }
 
+    function updatePassword($newPassword, $confirmPassword){
+        if ($newPassword != $confirmPassword or $newPassword == $this->password){
+            return false;
+        }
+        if ($this->login()){
+            $updateResult = $this->collection->updateOne(
+                [
+                    'Username'     => $this->username,
+                    'Password'     => $this->password
+                ],
+                [
+                    '$set'         => [
+                        'Password' => $newPassword
+                    ]
+                ]
+            );
+            if ($updateResult->getMatchedCount() == 1){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     function login(){
         $result = $this->collection->findOne(
             [
