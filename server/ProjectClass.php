@@ -13,6 +13,7 @@ class Project{
     private $endDate;
     private $client;
     private $collection;
+    private $deadline = "None";
     function __construct(){
         $this->client = new MongoDB\Client;
         $this->collection = $this->client->Prodeo->projects;
@@ -54,18 +55,55 @@ class Project{
 
         return $object;
     }
-    private static function fetch($projectID, $user){
-        echo 'pass';
+    public static function fetchByName($projectName,  $user){
+        $object = new self();
+        $object->projectName = $projectName;
+        $object->user = $user;
+
+        return $object;
+    }
+    public static function fetchByID($projectID, $user){
+        $object = new self();
+        $object->projectID = $projectID;
+        $object->user = $user;
+
+        return $object;
+    }
+    public static function setDeadline($deadline){
+        $this->deadline = $deadline;
+    }
+    function AccessbyName($projectName, $user){
+        $result = $collection->find(
+            [
+                'User'  => $this->user,
+                'Name'  => $this->projectName
+            ]
+        );
+        if ($result != NULL){
+
+        }
+
+        
+
     }
     function createProject(){
 
+        $currentDate = date('d-m-y h:i:s');
+
         $this->collection->insertOne(
             [
-            '_id'           => $this->projectID,
-            'Name'          => $this->projectName,
-            'Type'          => $this->projectType,
-            'Description'   => $this->projectDescription,
-            'User'          => $this->user
+            '_id'               => $this->projectID,
+            'Name'              => $this->projectName,
+            'Type'              => $this->projectType,
+            'Description'       => $this->projectDescription,
+            'User'              => $this->user,
+            'CreatedTime'       => $currentDate,
+            'LastAccessed'      => $currentDate,
+            'Team'              => [
+                'ProjectManager'        => $this->user
+            ],
+            'Progress'          => 0 ,
+            'Deadline'          => $this->deadline
             ]
         );
 
@@ -75,6 +113,11 @@ class Project{
                 'Name'          => $this->projectName,
                 'Type'          => $this->projectType,
                 'Description'   => $this->projectDescription,
+                'Team'          => [
+                    'ProjectManager'    => $this->user 
+                ],
+                'Progress'      => 0,
+                'Deadline'      => $this->deadline
         ));
 
         return $result;
