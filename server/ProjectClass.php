@@ -18,6 +18,25 @@ class Project{
         $this->client = new MongoDB\Client;
         $this->collection = $this->client->Prodeo->projects;
     }
+    public static function fetchRecentProjects($user, $limit){
+        $object = new self();
+        $result = $object->collection->find(
+            [
+                '$or' => [
+                    ['Team.ProjectManager'   => $user],
+                    ['Team.Members'          => $user],
+                    ['Origin'                => $user]
+                ]
+            ],
+            [
+                'limit'     => $limit,
+                'sort'      => ['LastAccessed' => -1]
+            ]   
+        );
+        $result = json_encode(iterator_to_array($result));
+        return $result;
+        
+    }
     public static function create($projectName, $projectType, $projectDescription, $user){
         $object = new self();
 
@@ -30,7 +49,7 @@ class Project{
         $projectID = $user.'('.$id.')';
         $cursor = $object->collection->find(
             [
-                'User'          => $user
+                'Origin'          => $user
             ],
             [
                 'projection'    => ['_id' => 1, 'Name' => 1],
@@ -62,29 +81,54 @@ class Project{
 
         return $object;
     }
-    public static function fetchByID($projectID, $user){
+    public static function fetchByID($projectID){
         $object = new self();
         $object->projectID = $projectID;
-        $object->user = $user;
 
         return $object;
     }
-    public static function setDeadline($deadline){
+    function setDeadline($deadline){
         $this->deadline = $deadline;
     }
     function AccessbyName($projectName, $user){
-        $result = $collection->find(
+        $currentTime = date('d-m-y h:i:s');
+        $result = $this->collection->find(
             [
-                'User'  => $this->user,
+                'Origin'  => $this->user,
                 'Name'  => $this->projectName
             ]
         );
         if ($result != NULL){
-
+            $this->collection->updateOne(
+                ['Name'  => $this->ProjectName],
+                [ '$set' => ['LastAccessed'     => $currentTime]]
+            );
+            return $result;
+        } else {
+            return false;
         }
 
         
 
+    }
+    function AccessbyID(){
+        $currentTime = date('d-m-y h:i:s');
+        $updateResult = $this->collection->updateOne(
+            ['_id'      => $this->projectID],
+            ['$set'     => ['LastAccessed'      => $currentTime]]
+        );
+        if ($updateResult->getMatchedCount() == 1){
+            $result = $this->collection->findOne(
+                [
+                    '_id'       => $this->projectID
+                ]
+                );
+                $result = MongoDB\BSON\fromPHP($result);
+                $result = MongoDB\BSON\toJSON($result);
+                return $result;
+        } else {
+            return false;
+        }
     }
     function createProject(){
 
@@ -96,7 +140,7 @@ class Project{
             'Name'              => $this->projectName,
             'Type'              => $this->projectType,
             'Description'       => $this->projectDescription,
-            'User'              => $this->user,
+            'Origin'              => $this->user,
             'CreatedTime'       => $currentDate,
             'LastAccessed'      => $currentDate,
             'Team'              => [
@@ -113,6 +157,7 @@ class Project{
                 'Name'          => $this->projectName,
                 'Type'          => $this->projectType,
                 'Description'   => $this->projectDescription,
+                'Origin'        => $this->user,
                 'Team'          => [
                     'ProjectManager'    => $this->user 
                 ],
