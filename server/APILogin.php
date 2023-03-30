@@ -19,9 +19,9 @@ $newUser = User::checkRegistered($username, $password);
 $result = $newUser->login();
 
 if ($result){
-    echo json_encode(array("message" => "Successfully logged in"));
+    return json_encode(array("message" => "Successfully logged in"));
 } else {
-    echo json_encode(array("message" => "Not logged in"));
+    return json_encode(array("message" => "Not logged in"));
 }
 
 ?>

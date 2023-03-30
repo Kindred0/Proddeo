@@ -1,9 +1,7 @@
-POST http://localserver:8001/CreateProject.php HTTP/1.1
+POST http://localserver:8001/APILogin.php HTTP/1.1
 Content-Type: application/json
 
 {
-    "ProjectName"           : "TestProject4",
-    "ProjectType"           : "Software",
-    "ProjectDescription"    : "A fourth test project for testing error casing of the API",
-    "User"                  : "Sample"
+    "username" : "Test",
+    "password" : "TestPassword"
 }   

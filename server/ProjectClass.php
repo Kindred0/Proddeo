@@ -70,7 +70,7 @@ class Project{
         );
 
         $result = json_encode(array(
-                'message'       => 'Project Added successfully',
+                'message'       => 'Project created successfully',
                 '_id'           => $this->projectID,
                 'Name'          => $this->projectName,
                 'Type'          => $this->projectType,
