@@ -1,0 +1,8 @@
+POST http://localserver:8001/APISignup.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "email"          : "sample6@gmail.com",
+    "username"       : "sample6",
+    "password"       : "1223587"
+} 

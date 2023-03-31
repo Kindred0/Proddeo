@@ -1,0 +1,6 @@
+POST http://localserver:8001/AccessUser.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "Username"       : "sample5"
+} 
