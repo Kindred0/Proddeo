@@ -1,0 +1,7 @@
+POST http://localhost/Prodeo/server/APILogin.php HTTP/1.1
+Content-Type: application/json
+
+{
+    "username"  : "Sample3",
+    "password"  : "Test"
+}   
