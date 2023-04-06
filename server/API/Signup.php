@@ -2,6 +2,7 @@
 
 require 'vendor/autoload.php';
 require 'UserClass.php';
+require_once 'NotificationClass.php';
 
 
 header("Access-Control-Allow-Origin: *");
@@ -26,6 +27,8 @@ $result = $newUser->checkValidSignup();
 if ($result == 'Success'){
     $newUser->signup();
     echo json_encode(array("message" => "Record successfully inserted"));
+    $welcome = Notification::welcome($username);
+    $welcome->sendNotification();
 } else {
     echo json_encode(array("message" => $result));
 }

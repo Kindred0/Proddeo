@@ -1,12 +1,14 @@
 <?php
 
 require 'vendor/autoload.php';
+require 'NotificationClass.php';
 
 
 class User{
     private $email;    
     private $username;
     private $password;
+    private $notifications;
     private $client;
     private $collection;
 
@@ -33,6 +35,42 @@ class User{
         return $newObject;
     }
 
+    public static function fetchUser($username){
+        $newObject = new self();
+        $result = $newObject->collection->findOne(
+            [
+                'Username' => $username
+            ]
+        );
+        if ($result == NULL){
+            return false;
+        }
+        $newObject->email = $result['_id'];
+        $newObject->username = $username;
+        $newObject->password = $result['Password'];
+        $newObject->notifications = Notification::getNotifications($username);
+        return $newObject;
+    }
+    function AccessUser(){
+        $result = json_encode(array(
+            'Email' => $this->email,
+            'User'  => $this->username,
+            'Password'  => $this->password,
+            'Notifications' => $this->notifications
+        ));
+        echo $result;
+        echo json_encode(array(
+            "Notifications"     => 1 
+        ));
+        foreach ($this->notifications as $notify){
+            echo json_encode(array(
+                "Message"   => $notify['Message'],
+                "Origin"    => $notify['Origin'],
+                "Time"      => $notify['Time'],
+                "Options"   => $notify['Options']
+            ));
+        }
+    }
     function updatePassword($newPassword, $confirmPassword){
         if ($newPassword != $confirmPassword or $newPassword == $this->password){
             return false;
