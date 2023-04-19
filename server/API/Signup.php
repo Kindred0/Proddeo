@@ -1,8 +1,8 @@
 <?php
 
-require 'vendor/autoload.php';
-require 'UserClass.php';
-require_once 'NotificationClass.php';
+require '../vendor/autoload.php';
+require '../Classes/UserClass.php';
+require_once '../Classes/NotificationClass.php';
 
 
 header("Access-Control-Allow-Origin: *");
@@ -15,9 +15,9 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $data       = json_decode(file_get_contents("php://input", true));
 
 
-$email      = $data->{'email'};
-$username   = $data->{'username'};
-$password   = $data->{'password'};
+$email = $_POST['email'];
+$username = $_POST['username'];
+$password = $_POST['password'];
 
 $newUser = User::register($email, $username, $password);
 
@@ -26,7 +26,7 @@ $result = $newUser->checkValidSignup();
 
 if ($result == 'Success'){
     $newUser->signup();
-    echo json_encode(array("message" => "Record successfully inserted"));
+    echo "<div>Success<\div>";
     $welcome = Notification::welcome($username);
     $welcome->sendNotification();
 } else {

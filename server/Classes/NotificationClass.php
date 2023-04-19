@@ -15,7 +15,7 @@ class Notification {
     public static function welcome($user){
         $object = new self();
         $object->reciever = $user;
-        $object->origin = 'System';
+        $object->origin = 'Prodeo Team';
         $object->message = "Welcome to Prodeo";
         $object->currentTime = date('d-m-y h:i:s');
         return $object;

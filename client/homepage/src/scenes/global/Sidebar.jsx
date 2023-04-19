@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ProSidebarProvider, Menu, MenuItem , SubMenu } from "react-pro-sidebar";
 // import { Sidebar as ProSidebar, useProSidebar } from 'react-pro-sidebar'; 
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import "react-pro-sidebar/dist/css/styles.css";
+// import "react-pro-sidebar/dist/css/styles.css";
 import { Link } from 'react-router-dom';
 import { tokens } from "../../Theme";
 import SchemaIcon from '@mui/icons-material/Schema';
@@ -131,9 +131,13 @@ const Sidebar = () => {
             />
           </Link>
 
-            <SubMenu label =' Data'>
-            <Link to="/Team">
-            <Item
+            <Link to="/">
+            <Item 
+              title="Projects"
+              // icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected} />
+            {/* <Item
               title="Manage Team"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
@@ -154,9 +158,10 @@ const Sidebar = () => {
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
+            {/* </Link>
+            </SubMenu> */}
             </Link>
-            </SubMenu>
             <SubMenu label = "Pages">
             <Link to="/form">
             <Item
@@ -208,14 +213,14 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             </Link>
-            <Link to="/geography">
+            {/* <Link to="/geography">
             <Item
               title="Geography Chart"
               icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            </Link>
+            </Link> */}
             <Link to="/UML">
              <Item
                 title="UML Diagram"
