@@ -1,7 +1,7 @@
 <?php
 
-require 'vendor/autoload.php';
-
+require '../vendor/autoload.php';
+require_once 'NotificationClass.php';
 
 class Project{
     private $user;
@@ -80,6 +80,10 @@ class Project{
         $object->user = $user;
 
         return $object;
+    }
+    public function inviteMembers($invitee){
+        $request = new Notification();
+        $request->sendInvitation();
     }
     public static function fetchByID($projectID){
         $object = new self();
